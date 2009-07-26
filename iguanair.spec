@@ -3,7 +3,7 @@
 %define Name	iguanaIR
 %define version	0.99
 %define svnsnap	959
-%define rel	1
+%define rel	2
 
 %define major	0
 %define libname	%mklibname iguanair %major
@@ -111,10 +111,11 @@ rm -rf %{buildroot}
 rm %{buildroot}%{_sysconfdir}/init.d/iguanaIR
 rm %{buildroot}%{_sysconfdir}/default/iguanaIR
 rm %{buildroot}%{_sysconfdir}/udev/rules.d/iguanaIR.rules
-# same as upstream with udev 098 change and RUN adapted to our initscript
+# same as upstream with udev 098 change and RUN adapted to our initscript;
+# modesetting dropped as console.perms affects those on Mandriva;
+# we add iguanair to usb group instead
 cat > %{buildroot}%{_sysconfdir}/udev/rules.d/iguanaIR.rules <<EOF
 ATTRS{manufacturer}=="IguanaWorks", \
-	OWNER="iguanair", GROUP="iguanair", MODE="0660", \
 	RUN+="/sbin/service iguanair rescan"
 EOF
 
@@ -131,14 +132,11 @@ chmod 0644 %{buildroot}%{python_sitearch}/*.py
 rm -rf %{buildroot}
 
 %pre
-%_pre_useradd iguanair / /bin/nologin
+%_pre_useradd iguanair / /sbin/nologin
+%{_bindir}/gpasswd -a iguanair video >/dev/null
 
 %post
 %_post_service %name
-if [ "$1" = "1" ]; then
-	# apply new permissions from the added udev file
-	/sbin/udevadm trigger --attr-match=manufacturer=IguanaWorks
-fi
 
 %preun
 %_preun_service %name
