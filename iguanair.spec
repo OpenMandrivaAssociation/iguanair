@@ -3,7 +3,7 @@
 %define Name	iguanaIR
 %define version	0.99
 %define svnsnap	959
-%define rel	3
+%define rel	4
 
 %define major	0
 %define libname	%mklibname iguanair %major
@@ -23,8 +23,8 @@ URL:		http://iguanaworks.net/projects/IguanaIR/
 # REV=$(svn info iguanair | grep "Last Changed Rev" | cut -d" " -f4)
 # svn export iguanair iguanair-$REV
 # rm -rf iguanair-$REV/win32
-# tar -cJf iguanair-$REV.tar.xz iguanair-$REV
-Source:		iguanair-%svnsnap.tar.xz
+# tar -cjf iguanair-$REV.tar.bz2 iguanair-$REV
+Source:		iguanair-%svnsnap.tar.bz2
 Source1:	iguanair.mdv.init
 Source2:	iguanair.sysconfig
 Source3:	iguanair.logrotate
