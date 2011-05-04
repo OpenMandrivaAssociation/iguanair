@@ -3,7 +3,7 @@
 %define Name	iguanaIR
 %define version	0.99
 %define svnsnap	959
-%define rel	4
+%define rel	5
 
 %define major	0
 %define libname	%mklibname iguanair %major
