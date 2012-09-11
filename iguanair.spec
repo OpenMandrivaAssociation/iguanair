@@ -29,6 +29,7 @@ Source2:	iguanair.sysconfig
 Source3:	iguanair.logrotate
 BuildRequires:	pkgconfig(libusb-1.0)
 BuildRequires:	pkgconfig(popt)
+BuildRequires:	pkgconfig(libusb)
 BuildRequires:	swig
 Requires(post):	rpm-helper
 Requires(preun): rpm-helper
