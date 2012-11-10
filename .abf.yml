@@ -1,0 +1,5 @@
+sources:
+  "iguanaIR-1.0.3.tar.bz2:"	0c9168b64694ad863b866eb5a49c902ee19cb745
+  "iguanair.logrotate:"	2dc720420be1f2bbe46a18b8f82ebea51f65f9c3
+  "iguanair.mdv.init:"	90ecb9fbaf114cafdbfcd7bf22ca0c1bbdfb37cc
+  "iguanair.sysconfig:"	77e171efdfd97b564d3a000f63aa8b4087263915
