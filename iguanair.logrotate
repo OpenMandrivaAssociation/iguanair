@@ -1,0 +1,7 @@
+/var/log/iguanair {
+	missingok
+	notifempty
+	postrotate
+		/sbin/service iguanair reload 2> /dev/null || true
+	endscript
+}
