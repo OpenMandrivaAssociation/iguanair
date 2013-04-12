@@ -7,6 +7,7 @@
 %define major	0
 %define libname	%mklibname iguanair %major
 %define devname	%mklibname iguanair -d
+%define debug_package %{nil}
 
 # python module
 %define _disable_ld_no_undefined 1
@@ -14,7 +15,7 @@
 Summary:	IguanaWorks USB IR Transceiver driver
 Name:		%name
 Version:	%version
-Release:	%mkrel 1
+Release:	2
 License:	GPLv2 and LGPLv2.1
 Group:		System/Kernel and hardware
 URL:		http://iguanaworks.net/projects/IguanaIR/
