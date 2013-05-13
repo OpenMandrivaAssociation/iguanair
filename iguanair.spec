@@ -1,24 +1,19 @@
-
-%define name	iguanair
-%define Name	iguanaIR
-%define version	1.0.3
-%define rel	1
-
-%define major	0
-%define libname	%mklibname iguanair %major
-%define devname	%mklibname iguanair -d
-%define debug_package %{nil}
-
 # python module
 %define _disable_ld_no_undefined 1
+%define debug_package %{nil}
+
+%define Name	iguanaIR
+%define major	0
+%define libname	%mklibname iguanair %{major}
+%define devname	%mklibname iguanair -d
 
 Summary:	IguanaWorks USB IR Transceiver driver
-Name:		%name
-Version:	%version
+Name:		iguanair
+Version:	1.0.3
 Release:	2
 License:	GPLv2 and LGPLv2.1
 Group:		System/Kernel and hardware
-URL:		http://iguanaworks.net/projects/IguanaIR/
+Url:		http://iguanaworks.net/projects/IguanaIR/
 # svn co http://iguanaworks.net/repos/iguanair/public/trunk/software/usb_ir iguanair
 # REV=$(svn info iguanair | grep "Last Changed Rev" | cut -d" " -f4)
 # svn export iguanair iguanair-$REV
@@ -28,13 +23,13 @@ Source0:	http://iguanaworks.net/downloads/%{Name}-%{version}.tar.bz2
 Source1:	iguanair.mdv.init
 Source2:	iguanair.sysconfig
 Source3:	iguanair.logrotate
-BuildRequires:	pkgconfig(libusb-1.0)
-BuildRequires:	pkgconfig(popt)
-BuildRequires:	pkgconfig(libusb)
-BuildRequires:	swig
-Requires(post):	rpm-helper
-Requires(preun): rpm-helper
 Patch0:		RPM_OS_iguana.patch
+
+BuildRequires:	swig
+BuildRequires:	pkgconfig(libusb-1.0)
+BuildRequires:	pkgconfig(libusb)
+BuildRequires:	pkgconfig(popt)
+Requires(post,preun):	rpm-helper
 
 %description
 This package contains the driver daemon required for the operation
@@ -64,27 +59,27 @@ Requires:	python-iguanair
 %description reflasher
 Firmware reflasher for IguanaWorks USB IR Transceiver.
 
-%package -n %libname
+%package -n %{libname}
 Summary:	Shared library for iguanaIR devices
 Group:		System/Libraries
 
-%description -n %libname
+%description -n %{libname}
 This package contains the library needed to run programs dynamically
 linked with libiguanair.
 
-%package -n %devname
+%package -n %{devname}
 Summary:	Headers for iguanaIR development
 Group:		Development/C
-Requires:	%libname = %version
-Provides:	iguanair-devel = %version-%release
+Requires:	%{libname} = %version
+Provides:	%{name}-devel = %version-%release
 
-%description -n %devname
+%description -n %{devname}
 This package contains the headers that programmers will need to develop
 applications which will use libiguanair.
 
 %prep
-%setup -q -n %{Name}-%{version}
-%patch0 -p1
+%setup -qn %{Name}-%{version}
+%apply_patches
 
 %build
 %configure2_5x
@@ -110,9 +105,9 @@ rm -f %{buildroot}%{_sysconfdir}/udev/rules.d/iguanaIR.rules
 
 
 
-install -D -m755 %SOURCE1 %{buildroot}%{_initrddir}/%name
-install -D -m644 %SOURCE2 %{buildroot}%{_sysconfdir}/sysconfig/%name
-install -D -m644 %SOURCE3 %{buildroot}%{_sysconfdir}/logrotate.d/%name
+install -D -m755 %SOURCE1 %{buildroot}%{_initrddir}/%{name}
+install -D -m644 %SOURCE2 %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -D -m644 %SOURCE3 %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # not executables
 chmod 0644 %{buildroot}%{_libexecdir}/iguanaIR-reflasher/hex/*.hex
@@ -122,14 +117,14 @@ chmod 0644 %{buildroot}%{_includedir}/*.h
 %_pre_useradd iguanair / /sbin/nologin
 
 %post
-%_post_service %name
+%_post_service %{name}
 if [ "$1" = "1" ]; then
 	 # apply new permissions from the added udev file
 	/sbin/udevadm trigger --attr-match=manufacturer=IguanaWorks
 fi
 
 %preun
-%_preun_service %name
+%_preun_service %{name}
 
 %postun
 %_postun_userdel iguanair
@@ -137,9 +132,9 @@ fi
 %files
 %doc AUTHORS README.txt
 #% {_sysconfdir}/udev/rules.d/%{Name}.rules
-%{_initrddir}/%name
-%config(noreplace) %{_sysconfdir}/sysconfig/%name
-%config(noreplace) %{_sysconfdir}/logrotate.d/%name
+%{_initrddir}/%{name}
+%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 /lib/udev/rules.d/80-iguanaIR.rules
 %{_bindir}/igclient
 %{_bindir}/igdaemon
@@ -152,10 +147,10 @@ fi
 %{_bindir}/iguanaIR-reflasher
 %{_libexecdir}/iguanaIR-reflasher
 
-%files -n %libname
+%files -n %{libname}
 %{_libdir}/libiguanaIR.so.%{major}*
 
-%files -n %devname
+%files -n %{devname}
 %doc README.txt
 %{_libdir}/*.so
 %{_includedir}/%{Name}.h
