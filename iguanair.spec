@@ -49,7 +49,7 @@ transceiver can transmit on up to 4 independent channels.
 %package -n python-iguanair
 Summary:	Python bindings for iguanaIR
 Group:		Development/Python
-%py_requires -d
+BuildRequires:	python-devel
 
 %description -n python-iguanair
 Python bindings for IguanaWorks USB IR Transceiver.
