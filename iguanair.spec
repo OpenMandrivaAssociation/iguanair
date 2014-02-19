@@ -159,7 +159,7 @@ fi
 %{_bindir}/%{Name}-reflasher
 
 %files -n %{libname}
-%{_libdir}/libiguanaIR.so.%{major}*
+%{_libdir}/iguanaIR.so.%{major}*
 
 %files -n %{devname}
 %doc README.txt
