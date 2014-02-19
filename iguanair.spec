@@ -159,7 +159,8 @@ fi
 %{_bindir}/%{Name}-reflasher
 
 %files -n %{libname}
-%{_libdir}/iguanaIR.so.%{major}*
+%{_libdir}/libiguanaIR.so.%{major}*
+%{_libdir}/iguanaIR/libusb.so
 
 %files -n %{devname}
 %doc README.txt
