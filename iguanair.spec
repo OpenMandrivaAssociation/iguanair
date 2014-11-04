@@ -31,6 +31,7 @@ Patch0:		changeset_2710.patch
 #Patch6:         0006-udev-invoke-systemd-support-not-sysV-init-file.patch
 
 BuildRequires:	swig
+BuildRequires:	cmake
 BuildRequires:	pkgconfig(libusb-1.0)
 BuildRequires:	pkgconfig(libusb)
 BuildRequires:	pkgconfig(popt)
