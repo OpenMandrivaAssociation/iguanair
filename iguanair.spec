@@ -11,7 +11,7 @@
 Summary:	IguanaWorks USB IR Transceiver driver
 Name:		iguanair
 Version:	1.1.0
-Release:	1
+Release:	2
 License:	GPLv2 and LGPLv2.1
 Group:		System/Kernel and hardware
 Url:		http://iguanaworks.net/projects/IguanaIR/
@@ -68,6 +68,7 @@ Firmware reflasher for IguanaWorks USB IR Transceiver.
 %package -n %{libname}
 Summary:	Shared library for iguanaIR devices
 Group:		System/Libraries
+Obsoletes:	%{_lib}iguanair0
 
 %description -n %{libname}
 This package contains the library needed to run programs dynamically
