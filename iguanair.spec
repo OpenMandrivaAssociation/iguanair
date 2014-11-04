@@ -4,13 +4,14 @@
 
 %define Name	iguanaIR
 %define major	0
-%define libname	%mklibname iguanair %{major}
+%define	minor	3
+%define libname	%mklibname iguanair %{major}.%{minor}
 %define devname	%mklibname iguanair -d
 
 Summary:	IguanaWorks USB IR Transceiver driver
 Name:		iguanair
-Version:	1.0.5
-Release:	7
+Version:	1.1.0
+Release:	1
 License:	GPLv2 and LGPLv2.1
 Group:		System/Kernel and hardware
 Url:		http://iguanaworks.net/projects/IguanaIR/
@@ -23,10 +24,11 @@ Source0:	http://iguanaworks.net/downloads/%{Name}-%{version}.tar.bz2
 Source1:        iguanaIR.service
 Source2:        iguanaIR-rescan
 Source3:	README.omv
+Patch0:		changeset_2710.patch
 # https://iguanaworks.net/projects/IguanaIR/ticket/205 for patch 5, 3, 2.
-Patch3:         0003-Use-platform-specific-python-extension-dir.patch
+#Patch3:         0003-Use-platform-specific-python-extension-dir.patch
 # Fedora only
-Patch6:         0006-udev-invoke-systemd-support-not-sysV-init-file.patch
+#Patch6:         0006-udev-invoke-systemd-support-not-sysV-init-file.patch
 
 BuildRequires:	swig
 BuildRequires:	pkgconfig(libusb-1.0)
@@ -46,18 +48,18 @@ devices, the USB transceiver does not require a kernel module, and
 multiple transceivers can be in use at the same time. Each
 transceiver can transmit on up to 4 independent channels.
 
-%package -n python-iguanair
+%package -n python2-iguanair
 Summary:	Python bindings for iguanaIR
 Group:		Development/Python
-BuildRequires:	python-devel
+BuildRequires:	python2-devel
 
-%description -n python-iguanair
+%description -n python2-iguanair
 Python bindings for IguanaWorks USB IR Transceiver.
 
 %package reflasher
 Summary:	Reflasher for iguanaIR devices
 Group:		System/Kernel and hardware
-Requires:	python-iguanair
+Requires:	python2-iguanair
 
 %description reflasher
 Firmware reflasher for IguanaWorks USB IR Transceiver.
@@ -86,14 +88,11 @@ applications which will use libiguanair.
 cp %{SOURCE3} README.omv
 
 %build
-%configure2_5x
+%cmake -DLIBDIR="%{_libdir}"
 %make
 
-# Fix incorrect permissions
-chmod -x iguanaIR_wrap.c
-
 %install
-%makeinstall_std
+%makeinstall_std -C build INLIBDIR=%{buildroot}%{_libdir}
 
 install -m755 -d %{buildroot}%{_localstatedir}/run/%{name}
 
@@ -103,7 +102,7 @@ mv  %{buildroot}/etc/default/iguanaIR \
     %{buildroot}%{_sysconfdir}/sysconfig
 
 # Fix up some stray file permissions issues
-chmod -x %{buildroot}%{python_sitearch}/*.py \
+chmod -x %{buildroot}%{python2_sitearch}/*.py \
          %{buildroot}%{_includedir}/%{Name}.h \
          %{buildroot}%{_datadir}/%{Name}-reflasher/hex/*
 
@@ -138,11 +137,13 @@ fi
 %_postun_userdel iguanair
 
 %files
-%doc AUTHORS LICENSE LICENSE-LGPL WHY protocols.txt
-%doc README.txt notes.txt ChangeLog
+%doc AUTHORS LICENSE LICENSE-LGPL WHY
+%doc README.txt ChangeLog
 %doc README.omv
 %{_bindir}/igdaemon
 %{_bindir}/igclient
+%{_bindir}/iguanaIR-rescan
+%{_libdir}/%{Name}/libusb.so
 %{_libexecdir}/%{Name}/
 %{_unitdir}/%{Name}.service
 /lib/udev/rules.d/80-%{Name}.rules
@@ -151,8 +152,8 @@ fi
 %attr(755, iguanair, iguanair) /run/%{name}
 %attr(775, iguanair, iguanair) %{_localstatedir}/log/%{Name}
 
-%files -n python-iguanair
-%{python_sitearch}/*
+%files -n python2-iguanair
+%{python2_sitearch}/*
 
 %files reflasher
 %{_datadir}/%{Name}-reflasher/
