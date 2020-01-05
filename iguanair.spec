@@ -11,7 +11,7 @@
 Summary:	IguanaWorks USB IR Transceiver driver
 Name:		iguanair
 Version:	1.1.0
-Release:	6
+Release:	7
 License:	GPLv2 and LGPLv2.1
 Group:		System/Kernel and hardware
 Url:		http://iguanaworks.net/projects/IguanaIR/
