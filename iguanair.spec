@@ -86,7 +86,7 @@ applications which will use libiguanair.
 
 %prep
 %setup -qn %{Name}-%{version}
-%apply_patches
+%autopatch -p1
 cp %{SOURCE3} README.omv
 
 %build
