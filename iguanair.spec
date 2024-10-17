@@ -14,7 +14,7 @@ Version:	1.1.0
 Release:	10
 License:	GPLv2 and LGPLv2.1
 Group:		System/Kernel and hardware
-Url:		http://iguanaworks.net/projects/IguanaIR/
+Url:		https://iguanaworks.net/projects/IguanaIR/
 # svn co http://iguanaworks.net/repos/iguanair/public/trunk/software/usb_ir iguanair
 # REV=$(svn info iguanair | grep "Last Changed Rev" | cut -d" " -f4)
 # svn export iguanair iguanair-$REV
